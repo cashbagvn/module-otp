@@ -1,4 +1,4 @@
-module modelu-otp
+module github.com/cashbagvn/module-otp
 
 go 1.13
 
