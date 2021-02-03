@@ -8,12 +8,6 @@ import (
 )
 
 type (
-	// RequestOTP
-	RequestOTP struct {
-		Phone string
-		Code  string
-	}
-
 	// ConfigZalo
 	ConfigZalo struct {
 		AccessToken string
@@ -56,12 +50,12 @@ func Init(config ConfigZalo) {
 }
 
 // SendOTP ...
-func SendOTP(request RequestOTP) (result *Result, jsonStr string, err error) {
+func SendOTP(phone, code string) (result *Result, jsonStr string, err error) {
 	payload := messageReq{
-		Phone:      request.Phone,
+		Phone:      phone,
 		TemplateID: templateId,
 		TemplateData: data{
-			OTP: request.Code,
+			OTP: code,
 		},
 	}
 	reqBody, err := json.Marshal(payload)
