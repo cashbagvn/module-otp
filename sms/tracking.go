@@ -58,6 +58,11 @@ func isValidOTPType(otpType string) bool {
 	return funk.ContainsString(validTypes, otpType)
 }
 
+// GenerateOTPTracker
+func GenerateOTPTracker(serviceName, collection string, targetID primitive.ObjectID) string {
+	return fmt.Sprintf("%s:%s:%s", serviceName, collection, targetID.Hex())
+}
+
 // NewOtpBSON ...
 func NewOtpBSON(to []string, otpType, tracker string) (otp otpmodel.OtpRaw) {
 	now := time.Now()
