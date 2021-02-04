@@ -40,7 +40,7 @@ func VerifyOtp(ctx context.Context, col *mongo.Collection, req otpmodel.VerifyOT
 			"tracker": req.Tracker,
 			"to":      req.Receipt,
 		}
-		go col.DeleteOne(ctx, cond)
+		go col.DeleteMany(ctx, cond)
 	}
 	return total > 0
 }
