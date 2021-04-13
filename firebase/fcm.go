@@ -12,6 +12,7 @@ import (
 
 const (
 	errTopicNotAllowed = "topic not allowed"
+	errEmptyTokens = "Empty tokens"
 )
 
 var (
@@ -171,4 +172,26 @@ func getErrTokensFromSubscribe(r *messaging.TopicManagementResponse, inputTokens
 // IsAllowedTopic ...
 func IsAllowedTopic(topic string) bool {
 	return funk.ContainsString(topics, topic)
+}
+
+
+// UnsubscribeTokenFromTopic ...
+func UnsubscribeTokenFromTopic(topic string, tokens []string) error {
+	tokens = removeEmptyStrings(tokens)
+	if !IsAllowedTopic(topic) {
+		return errors.New(errTopicNotAllowed)
+	}
+	if len(tokens) <= 0 {
+		return errors.New(errEmptyTokens)
+	}
+	res, err := clientMessage.UnsubscribeFromTopic(context.Background(), tokens, topic)
+	if err != nil {
+		fmt.Printf("Unsubscribe to topic %s error: %v", topic, err)
+		return err
+	}
+	fmt.Printf("Unsubscribe tokens to topic %s: success %d, failed %d \n", topic, res.SuccessCount, res.FailureCount)
+	if len(res.Errors) > 0 {
+		return errors.New(res.Errors[0].Reason)
+	}
+	return nil
 }
