@@ -2,12 +2,26 @@ package firebase
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"strings"
 
 	"firebase.google.com/go/messaging"
 	"github.com/thoas/go-funk"
 )
 
+const (
+	errTopicNotAllowed = "topic not allowed"
+)
+
+var (
+	topics = []string{
+		"all",
+		"android",
+		"ios",
+	}
+	LimitTokensForSubscribe = 1000
+)
 // Result ...
 type Result struct {
 	SuccessCount int
@@ -81,4 +95,80 @@ func removeEmptyStrings(s []string) []string {
 		return item != ""
 	})
 	return result
+}
+
+// SendWithCombineTopics ...
+func SendWithCombineTopics(topics []string, msg *messaging.Message) {
+	if len(topics) <= 0 {
+		return
+	}
+	var topicCond []string
+
+	for _, topic := range topics {
+		if !IsAllowedTopic(topic) {
+			continue
+		}
+		cond := fmt.Sprintf("'%s' in topics", topic)
+		topicCond = append(topicCond, cond)
+	}
+
+	msg.Condition = strings.Join(topicCond, " && ")
+
+	_, err := clientMessage.Send(context.Background(), msg)
+	if err != nil {
+		fmt.Printf("Error send message with condition %s: %v", msg.Condition, err)
+	}
+}
+
+
+// SubscribeTokensToTopic ...
+func SubscribeTokensToTopic(topic string, tokens []string) (r Result, err error) {
+	if len(tokens) <= 0 {
+		return
+	}
+	ctx := context.Background()
+
+	tokens = removeEmptyStrings(tokens)
+	if !IsAllowedTopic(topic) {
+		err = errors.New(errTopicNotAllowed)
+		return
+	}
+
+	for {
+		// separate list tokens if exceeded limit
+		send, rest := processTokens(tokens, LimitTokensForSubscribe)
+		if len(send) <= 0 {
+			break
+		}
+
+		res, err := clientMessage.SubscribeToTopic(ctx, tokens, topic)
+		if err != nil {
+			fmt.Printf("Subscribe to topic %s error: %v", topic, err)
+			return r, err
+		}
+		r.SuccessCount += res.SuccessCount
+		r.FailureCount += res.FailureCount
+		fmt.Printf("Subscribe tokens to topic %s: success %d, failed %d \n", topic, res.SuccessCount, res.FailureCount)
+
+		// get list error tokens
+		if len(res.Errors) > 0 {
+			r.ErrorTokens = append(r.ErrorTokens, getErrTokensFromSubscribe(res, send)...)
+		}
+
+		tokens = rest
+	}
+
+	return r, nil
+}
+
+func getErrTokensFromSubscribe(r *messaging.TopicManagementResponse, inputTokens []string) (errTokens []string) {
+	for _, info := range r.Errors {
+		errTokens = append(errTokens, inputTokens[info.Index])
+	}
+	return
+}
+
+// IsAllowedTopic ...
+func IsAllowedTopic(topic string) bool {
+	return funk.ContainsString(topics, topic)
 }
