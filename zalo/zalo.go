@@ -16,7 +16,7 @@ type (
 	}
 
 	data struct {
-		OTP string `json:"OTP"`
+		OTP string `json:"otp"`
 	}
 
 	messageReq struct {
