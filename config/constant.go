@@ -4,6 +4,7 @@ const (
 	ServiceName = "notification"
 
 	SMSServiceVietguys = "vietguys"
+	SMSServiceESMS     = "eSms"
 	SMSServiceZalo     = "zalo"
 	SMSTypeOTP         = "otp"
 
@@ -14,6 +15,7 @@ const (
 	SMSCarrierItel      = "itel"
 	SMSCarrierZalo      = "zalo"
 	SMSCarrierOthers    = "others"
+	SMSCarrierEsms      = "eSms"
 
 	OtpTypeSMS   = "sms"
 	OtpTypeEmail = "email"
