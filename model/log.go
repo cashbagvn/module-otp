@@ -16,7 +16,7 @@ type SMSLogRaw struct {
 	Content   string             `bson:"content"`
 	CreatedAt time.Time          `bson:"createdAt"`
 	Success   bool               `bson:"success"`
-	DeviceID  string             `bson:"deviceId"`
+	DeviceID  string             `bson:"deviceId,omitempty"`
 	Result    string             `bson:"result"`
 }
 
