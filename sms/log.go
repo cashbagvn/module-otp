@@ -17,16 +17,17 @@ func SaveMultiLog(ctx context.Context, col *mongo.Collection, smsLogs []interfac
 }
 
 // NewSMSLogRaw ...
-func NewSMSLogRaw(service, smsType, recipient, content, result, deviceId string, success bool) *otpmodel.SMSLogRaw {
+func NewSMSLogRaw(requestBody, service, smsType, recipient, content, result, deviceId string, success bool) *otpmodel.SMSLogRaw {
 	return &otpmodel.SMSLogRaw{
-		ID:        primitive.NewObjectID(),
-		Service:   service,
-		Type:      smsType,
-		Recipient: recipient,
-		Content:   content,
-		DeviceID:  deviceId,
-		CreatedAt: time.Now(),
-		Success:   success,
-		Result:    result,
+		ID:          primitive.NewObjectID(),
+		RequestBody: requestBody,
+		Service:     service,
+		Type:        smsType,
+		Recipient:   recipient,
+		Content:     content,
+		DeviceID:    deviceId,
+		CreatedAt:   time.Now(),
+		Success:     success,
+		Result:      result,
 	}
 }

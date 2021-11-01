@@ -8,16 +8,17 @@ import (
 
 // SMSLogRaw ...
 type SMSLogRaw struct {
-	ID        primitive.ObjectID `bson:"_id"`
-	Service   string             `bson:"service"` // vietguys, ...
-	Carrier   string             `bson:"carrier"` // mobifone, viettel, vinaphone, ...
-	Type      string             `bson:"type"`    // otp, ...
-	Recipient string             `bson:"recipient"`
-	Content   string             `bson:"content"`
-	CreatedAt time.Time          `bson:"createdAt"`
-	Success   bool               `bson:"success"`
-	DeviceID  string             `bson:"deviceId,omitempty"`
-	Result    string             `bson:"result"`
+	ID          primitive.ObjectID `bson:"_id"`
+	RequestBody string             `bson:"requestBody,omitempty"` // Optional
+	Service     string             `bson:"service"`               // vietguys, ...
+	Carrier     string             `bson:"carrier"`               // mobifone, viettel, vinaphone, ...
+	Type        string             `bson:"type"`                  // otp, ...
+	Recipient   string             `bson:"recipient"`
+	Content     string             `bson:"content"`
+	CreatedAt   time.Time          `bson:"createdAt"`
+	Success     bool               `bson:"success"`
+	DeviceID    string             `bson:"deviceId,omitempty"`
+	Result      string             `bson:"result"`
 }
 
 // SetCarrier ....
