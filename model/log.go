@@ -15,6 +15,8 @@ type SMSLogRaw struct {
 	Type        string             `bson:"type"`                  // otp, ...
 	Recipient   string             `bson:"recipient"`
 	Content     string             `bson:"content"`
+	Purpose     string             `bson:"purpose"`
+	Source      string             `bson:"source"`
 	CreatedAt   time.Time          `bson:"createdAt"`
 	Success     bool               `bson:"success"`
 	DeviceID    string             `bson:"deviceId,omitempty"`
