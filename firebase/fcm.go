@@ -12,7 +12,7 @@ import (
 
 const (
 	errTopicNotAllowed = "topic not allowed"
-	errEmptyTokens = "Empty tokens"
+	errEmptyTokens     = "empty tokens"
 )
 
 var (
@@ -20,9 +20,11 @@ var (
 		"all",
 		"android",
 		"ios",
+		"seller_non_pro",
 	}
 	LimitTokensForSubscribe = 1000
 )
+
 // Result ...
 type Result struct {
 	SuccessCount int
@@ -121,7 +123,6 @@ func SendWithCombineTopics(topics []string, msg *messaging.Message) {
 	}
 }
 
-
 // SubscribeTokensToTopic ...
 func SubscribeTokensToTopic(topic string, tokens []string) (r Result, err error) {
 	if len(tokens) <= 0 {
@@ -173,7 +174,6 @@ func getErrTokensFromSubscribe(r *messaging.TopicManagementResponse, inputTokens
 func IsAllowedTopic(topic string) bool {
 	return funk.ContainsString(topics, topic)
 }
-
 
 // UnsubscribeTokenFromTopic ...
 func UnsubscribeTokenFromTopic(topic string, tokens []string) error {
