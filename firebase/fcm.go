@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"strings"
 
-	"firebase.google.com/go/messaging"
+	"firebase.google.com/go/v4/messaging"
 	"github.com/thoas/go-funk"
 )
 
 const (
 	errTopicNotAllowed = "topic not allowed"
-	errEmptyTokens = "Empty tokens"
+	errEmptyTokens     = "Empty tokens"
 )
 
 var (
@@ -23,6 +23,7 @@ var (
 	}
 	LimitTokensForSubscribe = 1000
 )
+
 // Result ...
 type Result struct {
 	SuccessCount int
@@ -121,7 +122,6 @@ func SendWithCombineTopics(topics []string, msg *messaging.Message) {
 	}
 }
 
-
 // SubscribeTokensToTopic ...
 func SubscribeTokensToTopic(topic string, tokens []string) (r Result, err error) {
 	if len(tokens) <= 0 {
@@ -173,7 +173,6 @@ func getErrTokensFromSubscribe(r *messaging.TopicManagementResponse, inputTokens
 func IsAllowedTopic(topic string) bool {
 	return funk.ContainsString(topics, topic)
 }
-
 
 // UnsubscribeTokenFromTopic ...
 func UnsubscribeTokenFromTopic(topic string, tokens []string) error {

@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"log"
 
-	firebasego "firebase.google.com/go"
-	"firebase.google.com/go/auth"
-	"firebase.google.com/go/messaging"
+	firebasego "firebase.google.com/go/v4"
+	"firebase.google.com/go/v4/auth"
+	"firebase.google.com/go/v4/messaging"
 	"github.com/logrusorgru/aurora"
 	"google.golang.org/api/option"
 )
