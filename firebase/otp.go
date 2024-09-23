@@ -1,6 +1,6 @@
 package firebase
 
-import "firebase.google.com/go/auth"
+import "firebase.google.com/go/v4/auth"
 
 // VerifyIDToken ...
 func VerifyIDToken(idToken string) (*auth.Token, error) {
