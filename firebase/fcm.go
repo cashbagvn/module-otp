@@ -54,7 +54,7 @@ func SendToListDevices(ctx context.Context, tokens []string, payload *messaging.
 			Android:      payload.Android,
 		}
 		// send
-		br, err := clientMessage.SendMulticast(ctx, multiCastMsg)
+		br, err := clientMessage.SendEachForMulticast(ctx, multiCastMsg)
 		if err != nil {
 			fmt.Println("Error : ", err.Error())
 			return res, err
